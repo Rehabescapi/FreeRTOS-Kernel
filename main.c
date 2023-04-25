@@ -30,18 +30,25 @@ NRF_TWI_MNGR_DEF(twi_mngr_instance, 5, 0);
 TaskHandle_t  vtask1_handle;
 TaskHandle_t  vtask2_handle;
 
+
+#define RAD2DEG 57.13 
+
+// ADC channels
+#define X_CHANNEL 0
+#define Y_CHANNEL 1
+#define Z_CHANNEL 2
+
+
+float timestamp=0.0;
+float baseTimeStamp;
+
+
 void prvSetupHardware(){
 
 	/* Provide any hardware setup and configuration commands. For example, declaring GPIO pins to be output. */
 
 	printf("Entered prvSetupHardware. \n");
 
-
-
-
-
-
-  
   ret_code_t error_code = NRF_SUCCESS;
 
   // initialize RTT library
@@ -74,37 +81,11 @@ void prvSetupHardware(){
 
   //gyroscope
 
-  // initialize i2c master (two wire interface)
-  nrf_drv_twi_config_t i2c_config = NRF_DRV_TWI_DEFAULT_CONFIG;
-  i2c_config.scl = BUCKLER_SENSORS_SCL;
-  i2c_config.sda = BUCKLER_SENSORS_SDA;
-  i2c_config.frequency = NRF_TWIM_FREQ_100K;
-  error_code = nrf_twi_mngr_init(&twi_mngr_instance, &i2c_config);
-  APP_ERROR_CHECK(error_code);
+ 
 
-  // initialize LSM9DS1 driver
-  lsm9ds1_init(&twi_mngr_instance);
-  printf("lsm9ds1 initialized\n");
-
-
-  //setDevices();
-
-
-
-
-
-  lsm9ds1_start_gyro_integration();
-
-
+  setDevices();
   
-  
-  //Calibration shenanigans
-  struct ThirdAngle Angles, xAngles, yAngles;
-  float ax =0, ay =0, az = 0;
-  float gx = 0 ,gy = 0, gz = 0;
-  Angles.phi = 0;
-  Angles.psi = 0;
-  Angles.degree = 0;
+ 
   
 
 }
@@ -161,14 +142,81 @@ int main( void )
 
 void vTask1( void *pvParameters )
 {
-const char *pcTaskName = "Task 1 is running\r\n";
-volatile uint32_t ul;
+	const char *pcTaskName = "Task 1 is running\r\n";
+	volatile uint32_t ul;
+
+
+  ret_code_t error_code = NRF_SUCCESS;
+
+  // initialize RTT library
+  error_code = NRF_LOG_INIT(NULL);
+  APP_ERROR_CHECK(error_code);
+  //NRF_LOG_DEFAULT_BACKENDS_INIT();
+
+
+	 // initialize i2c master (two wire interface)
+  nrf_drv_twi_config_t i2c_config = NRF_DRV_TWI_DEFAULT_CONFIG;
+  i2c_config.scl = BUCKLER_SENSORS_SCL;
+  i2c_config.sda = BUCKLER_SENSORS_SDA;
+  i2c_config.frequency = NRF_TWIM_FREQ_100K;
+  error_code = nrf_twi_mngr_init(&twi_mngr_instance, &i2c_config);
+  APP_ERROR_CHECK(error_code);
+
+  // initialize LSM9DS1 driver
+  
+  printf("lsm9ds1 initialized\n");
+  lsm9ds1_init(&twi_mngr_instance);
+
+	
+	
+
+
+
+
+	bool button0, switch0;
+  	bool bToggle= false;
+
+  	 //Calibration shenanigans
+  //struct ThirdAngle Angles, xAngles, yAngles;
+  float ax =0, ay =0, az = 0;
+  
+  
+  // Write test numbers in a loop
+  unsigned int i = 0;
+  char clearbuf[16] ={0};
+  printf("Got too here\n");
 
 	/* As per most tasks, this task is implemented in an infinite loop. */
 	for( ;; )
 	{
+
+		button0 = getInput(28);
+		switch0 = getInput(22);
+		deviceLoop(bToggle);
+
+		lsm9ds1_measurement_t acc_measurement = lsm9ds1_read_accelerometer();
+		printf("Got accelerometer read\n");
+		printf("Voltage = x: %6.3f\ty: %6.3f\tz: %6.3f\n", ax, ay, az);
+
+
+		//printf("%6.3f\t ", acc_measurement);
+		//ax = acc_measurement.x_axis;
+		//ay = acc_measurement.y_axis;
+		//az = acc_measurement.z_axis;
+
+
+
+
+
+
 		/* Print out the name of this task. */
 		printf( "%s \n",pcTaskName );
+		
+
+		printf("Voltage = x: %6.3f\ty: %6.3f\tz: %6.3f\n", ax, ay, az);
+
+
+
 
 		vTaskDelay(300);
 
