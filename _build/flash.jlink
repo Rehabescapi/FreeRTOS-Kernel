@@ -1,0 +1,5 @@
+r
+loadfile _build/FreeRTOS-Kernel_sdk15_blank.hex 
+r
+g
+exit
