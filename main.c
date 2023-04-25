@@ -152,9 +152,7 @@ void vTask1( void *pvParameters )
   error_code = NRF_LOG_INIT(NULL);
   APP_ERROR_CHECK(error_code);
   //NRF_LOG_DEFAULT_BACKENDS_INIT();
-
-
-	 // initialize i2c master (two wire interface)
+  // initialize i2c master (two wire interface)
   nrf_drv_twi_config_t i2c_config = NRF_DRV_TWI_DEFAULT_CONFIG;
   i2c_config.scl = BUCKLER_SENSORS_SCL;
   i2c_config.sda = BUCKLER_SENSORS_SDA;
@@ -165,8 +163,8 @@ void vTask1( void *pvParameters )
   // initialize LSM9DS1 driver
   
   printf("lsm9ds1 initialized\n");
-  lsm9ds1_init(&twi_mngr_instance);
-
+  error_code = lsm9ds1_init(&twi_mngr_instance);
+APP_ERROR_CHECK(error_code);
 	
 	
 
@@ -178,7 +176,7 @@ void vTask1( void *pvParameters )
 
   	 //Calibration shenanigans
   //struct ThirdAngle Angles, xAngles, yAngles;
-  float ax =0, ay =0, az = 0;
+  uint8_t ax =0, ay =0, az = 0;
   
   
   // Write test numbers in a loop
@@ -196,15 +194,17 @@ void vTask1( void *pvParameters )
 
 		lsm9ds1_measurement_t acc_measurement = lsm9ds1_read_accelerometer();
 		printf("Got accelerometer read\n");
-		printf("Voltage = x: %6.3f\ty: %6.3f\tz: %6.3f\n", ax, ay, az);
+		// printf("Voltage = x: %6.3f\ty: %6.3f\tz: %6.3f\n", acc_measurement.x_axis,
+		//  acc_measurement.y_axis, acc_measurement.z_axis);
 
 
 		//printf("%6.3f\t ", acc_measurement);
-		//ax = acc_measurement.x_axis;
-		//ay = acc_measurement.y_axis;
-		//az = acc_measurement.z_axis;
+		// ax = acc_measurement.x_axis;
+		// // i = 3;
+		// ay = acc_measurement.y_axis;
+		// az = acc_measurement.z_axis;
 
-
+		ax = 3; ay =10; az= 20;
 
 
 
@@ -218,7 +218,7 @@ void vTask1( void *pvParameters )
 
 
 
-		vTaskDelay(300);
+		vTaskDelay(1000);
 
 	}
 }
@@ -235,7 +235,7 @@ volatile uint32_t ul;
 		/* Print out the name of this task. */
 		printf( "%s \n",pcTaskName );
 
-		vTaskDelay(300);
+		vTaskDelay(1000);
 
 	}
 }
