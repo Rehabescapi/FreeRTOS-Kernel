@@ -1,3 +1,7 @@
+#pragma once
+#ifndef _HAVE_SUPPORT_H
+#define _HAVE_SUPPORT_H
+
 #include "nrf.h"
 
 #include "stdbool.h"
@@ -20,6 +24,7 @@
 #include "nrf_pwr_mgmt.h"
 #include "nrf_serial.h"
 
+#include "gpio.h"
 
 
 typedef struct ThirdAngle{
@@ -42,3 +47,4 @@ void Record();
 
 void assign3D(struct ThirdAngle * Basic, float X, float Y, float Z);
 bool safetyCheck(struct ThirdAngle);
+#endif _HAVE_SUPPORT_H

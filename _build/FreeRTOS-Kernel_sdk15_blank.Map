@@ -327,18 +327,20 @@ Discarded input sections
  .text          0x0000000000000000        0x0 _build/gpio.o
  .data          0x0000000000000000        0x0 _build/gpio.o
  .bss           0x0000000000000000        0x0 _build/gpio.o
- .text.setDevices
-                0x0000000000000000       0x68 _build/gpio.o
- .text.deviceLoop
-                0x0000000000000000       0x40 _build/gpio.o
- .text.getInput
-                0x0000000000000000        0x6 _build/gpio.o
- .text.assign3D
-                0x0000000000000000       0xb8 _build/gpio.o
- .text.safetyCheck
-                0x0000000000000000       0x7c _build/gpio.o
- .rodata.setDevices.str1.1
-                0x0000000000000000       0x19 _build/gpio.o
+ .text.gpio_config
+                0x0000000000000000       0x20 _build/gpio.o
+ .text.gpio_set
+                0x0000000000000000       0x10 _build/gpio.o
+ .text.gpio_clear
+                0x0000000000000000       0x10 _build/gpio.o
+ .text.gpio_read
+                0x0000000000000000       0x18 _build/gpio.o
+ .text.gpio_OUT
+                0x0000000000000000       0x30 _build/gpio.o
+ .rodata.gpio_OUT.str1.1
+                0x0000000000000000       0x4f _build/gpio.o
+ .rodata.gpio_config.str1.1
+                0x0000000000000000       0x1b _build/gpio.o
  .comment       0x0000000000000000       0x80 _build/gpio.o
  .ARM.attributes
                 0x0000000000000000       0x39 _build/gpio.o
@@ -781,42 +783,41 @@ Discarded input sections
  .text.initAccel
                 0x0000000000000000       0x74 _build/lsm9ds1.o
  .text.initMag  0x0000000000000000       0x7c _build/lsm9ds1.o
- .text.lsm9ds1_init
-                0x0000000000000000       0xec _build/lsm9ds1.o
  .text.lsm9ds1_read_accelerometer
-                0x0000000000000000       0xb8 _build/lsm9ds1.o
+                0x0000000000000000       0x74 _build/lsm9ds1.o
  .text.lsm9ds1_read_gyro
-                0x0000000000000000       0xb8 _build/lsm9ds1.o
+                0x0000000000000000       0xa0 _build/lsm9ds1.o
  .text.lsm9ds1_read_magnetometer
                 0x0000000000000000       0x74 _build/lsm9ds1.o
  .text.lsm9ds1_start_gyro_integration
                 0x0000000000000000       0x3c _build/lsm9ds1.o
+ .text.lsm9ds1_calibrate
+                0x0000000000000000      0x130 _build/lsm9ds1.o
+ .text.lsm9ds1_init
+                0x0000000000000000      0x118 _build/lsm9ds1.o
  .text.lsm9ds1_stop_gyro_integration
                 0x0000000000000000        0xc _build/lsm9ds1.o
  .text.lsm9ds1_read_gyro_integration
                 0x0000000000000000       0xd0 _build/lsm9ds1.o
  .rodata        0x0000000000000000        0x8 _build/lsm9ds1.o
- .bss.aBiasRaw  0x0000000000000000        0x6 _build/lsm9ds1.o
+ .bss.aBiasRaw  0x0000000000000000        0xc _build/lsm9ds1.o
  .bss.aRes      0x0000000000000000        0x4 _build/lsm9ds1.o
- .bss.autocalc  0x0000000000000000        0x1 _build/lsm9ds1.o
- .bss.ax        0x0000000000000000        0x2 _build/lsm9ds1.o
- .bss.ay        0x0000000000000000        0x2 _build/lsm9ds1.o
- .bss.az        0x0000000000000000        0x2 _build/lsm9ds1.o
- .bss.gBiasRaw  0x0000000000000000        0x6 _build/lsm9ds1.o
+ .bss.gBias     0x0000000000000000        0xc _build/lsm9ds1.o
+ .bss.gBiasRaw  0x0000000000000000        0xc _build/lsm9ds1.o
  .bss.gRes      0x0000000000000000        0x4 _build/lsm9ds1.o
- .bss.gx        0x0000000000000000        0x2 _build/lsm9ds1.o
- .bss.gy        0x0000000000000000        0x2 _build/lsm9ds1.o
- .bss.gz        0x0000000000000000        0x2 _build/lsm9ds1.o
  .bss.integrated_angle
                 0x0000000000000000        0xc _build/lsm9ds1.o
  .bss.mRes      0x0000000000000000        0x4 _build/lsm9ds1.o
  .bss.prev_timer_val
                 0x0000000000000000        0x4 _build/lsm9ds1.o
  .bss.settings  0x0000000000000000       0x2c _build/lsm9ds1.o
+ .data.calib    0x0000000000000000        0x1 _build/lsm9ds1.o
  .rodata.gyro_timer
                 0x0000000000000000        0x8 _build/lsm9ds1.o
  .rodata.i2c_reg_write.str1.1
                 0x0000000000000000       0x55 _build/lsm9ds1.o
+ .rodata.lsm9ds1_calibrate.str1.1
+                0x0000000000000000       0x45 _build/lsm9ds1.o
  .comment       0x0000000000000000       0x80 _build/lsm9ds1.o
  .ARM.attributes
                 0x0000000000000000       0x39 _build/lsm9ds1.o

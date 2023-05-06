@@ -1,22 +1,5 @@
-#include "gpio.h"
+#include "support.h"
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-
-#include "app_error.h"
-#include "nrf.h"
-#include "nrf_delay.h"
-#include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
-#include "nrf_pwr_mgmt.h"
-#include "nrf_serial.h"
-
-
-#include "math.h"
-
-#include "buckler.h"
 
 
 
@@ -27,9 +10,6 @@ static uint32_t* CNF0 = (uint32_t*) 0x5000070C;
 static uint32_t* IN = (uint32_t*) 0x50000510;
 static uint32_t* DIR = (uint32_t*) 0x5000514;
 
-typedef struct ThirdAngle{
-   float phi, psi , degree;
-}ThirdAngle;
 
 
 void setDevices(){
@@ -66,7 +46,7 @@ void setDevices(){
 
 }
 
-void deviceLoop(bToggle){ //handles color and r
+void deviceLoop(bool bToggle){ //handles color and r
 	bool x = gpio_read(22);
    bool y = gpio_read(28);
 

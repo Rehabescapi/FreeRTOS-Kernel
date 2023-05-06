@@ -23,6 +23,9 @@
 
  #include "lsm9ds1.h"
  #include "nrf_twi_mngr.h"
+
+#include "gpio.h"
+#include "support.h"
 NRF_TWI_MNGR_DEF(twi_mngr_instance, 5, 0);
 
 

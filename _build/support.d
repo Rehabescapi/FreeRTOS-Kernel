@@ -1,4 +1,4 @@
-_build/support.o: support.c gpio.h \
+_build/support.o: support.c support.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/components/toolchain/cmsis/include/core_cm4.h \
@@ -19,18 +19,17 @@ _build/support.o: support.c gpio.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52_name_change.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdbool.h \
- /usr/arm-none-eabi/include/stdio.h /usr/arm-none-eabi/include/_ansi.h \
- /usr/arm-none-eabi/include/newlib.h \
+ /usr/arm-none-eabi/include/math.h /usr/arm-none-eabi/include/sys/reent.h \
+ /usr/arm-none-eabi/include/_ansi.h /usr/arm-none-eabi/include/newlib.h \
  /usr/arm-none-eabi/include/sys/config.h \
  /usr/arm-none-eabi/include/machine/ieeefp.h \
- /usr/arm-none-eabi/include/sys/cdefs.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h \
- /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdarg.h \
- /usr/arm-none-eabi/include/sys/reent.h \
- /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/sys/_types.h \
  /usr/arm-none-eabi/include/machine/_types.h \
  /usr/arm-none-eabi/include/sys/lock.h \
+ /usr/arm-none-eabi/include/sys/cdefs.h \
+ /usr/arm-none-eabi/include/_ansi.h /usr/arm-none-eabi/include/stdio.h \
+ /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdarg.h \
  /usr/arm-none-eabi/include/sys/types.h \
  /usr/arm-none-eabi/include/machine/endian.h \
  /usr/arm-none-eabi/include/machine/_endian.h \
@@ -108,7 +107,6 @@ _build/support.o: support.c gpio.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/mutex/nrf_mtx.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/atomic/nrf_atomic.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/timer/app_timer.h \
- /usr/arm-none-eabi/include/math.h \
- /home/student/buckler/software/boards/buckler_revC/./buckler.h \
+ gpio.h /home/student/buckler/software/boards/buckler_revC/./buckler.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h

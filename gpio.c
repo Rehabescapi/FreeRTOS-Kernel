@@ -1,111 +1,55 @@
 #include "gpio.h"
 
 
-
-
-static uint32_t* OUTSET = (uint32_t*) 0x50000508;
-static uint32_t* OUTCLEAR = (uint32_t*) 0x5000050C;
-static uint32_t* CNF0 = (uint32_t*) 0x5000070C;
-
-static uint32_t* IN = (uint32_t*) 0x50000510;
-static uint32_t* DIR = (uint32_t*) 0x5000514;
-
-typedef struct ThirdAngle{
-   float phi, psi , degree;
-}ThirdAngle;
-
-
-void setDevices(){
-	 ret_code_t error_code = NRF_SUCCESS;
-
-  // initialize RTT library
-  error_code = NRF_LOG_INIT(NULL);
-  APP_ERROR_CHECK(error_code);
-  NRF_LOG_DEFAULT_BACKENDS_INIT();
-  printf("Log initialized!\n");
-  
-
-  //Adding Light struct
-  
-  volatile pins* const pinD = (pins*) 0x50000700;
-
-  volatile gpio* const GPIO = (gpio*) 0x50000504;
-
-
-
-  //Setting up Lights
-  gpio_config(25, 1);
-  gpio_config(24, 1);
-  gpio_config(23, 1);
-
-  //Setting up Buttons
-  gpio_config(22, 0);
-  gpio_config(28, 0);
-
- 
-  gpio_clear(25);
-  gpio_clear(23);
-  gpio_clear(24);
-
+// Inputs: 
+//  gpio_num - gpio number 0-31
+//  dir - INPUT =0, OUTPUT =1
+void gpio_config(uint8_t pin_numb, bool mode){
+    printf("Requested from Pin #: %d \n", pin_numb);
+    uint32_t address = 0x50000000 + 0x700 + 4 * pin_numb;  // loading PIN_CNF[x] register for pin x
+    uint32_t *ptr_cnf = (uint32_t *) address;//0x50000000 + 0x00000700;// + 4 * pin_numb;   
+    // printf("Address being written at is: %x \n", ptr_cnf);
+    *ptr_cnf = mode; // a single digit value automatically goes to DIR bit
 }
 
-void deviceLoop(bToggle){ //handles color and r
-	bool x = gpio_read(22);
-   bool y = gpio_read(28);
-    if(x) // if Switch is Low
-    {
-       gpio_clear( 23);
-       gpio_set( 25);
-    }
-    else //Switch is high
-    {
-     gpio_set (23); 
-     gpio_clear(25);
-    }
-
-    if(bToggle)
-     {
-      gpio_clear(24);
-     }else{
-      gpio_set(24);
-     }
-}
-
-
-bool getInput(int x){
-	//todo Make this work for more things. 
-	return gpio_read(x);
-}
-
-
-void assign3D(struct ThirdAngle * Basic, float X,float Y, float Z){
-
-  
-   Basic->degree = atan2f( X, sqrtf( Y*Y + Z*Z)) *(180/M_PI);
-   Basic->psi = atan2f( Y ,  sqrtf(X*X + Z*Z)) * (180/M_PI);
-   Basic->phi = atan2f(sqrtf(X*X + Y*Y), Z) * (180/M_PI);
-
-  
-  
-
-}
-
-bool safetyCheck(struct ThirdAngle basic)
+// Inputs: 
+//  gpio_num - gpio number 0-31
+void gpio_set(uint8_t pin_numb)
 {
-   if(fabs(basic.psi) >45)
-   {
-      return false;
-   }
-   if(fabs(basic.phi) >45)
-   {
-      return false;
-   }
-   if(fabs(basic.degree) >45)
-   {
-      return false;
-   }
-   return true;
-   
-   
+  // printf("Setting Pin #: %d \n", pin_numb);
+  uint32_t address = 0x50000000 + 0x508; // loading OUTSET register first
+  uint32_t *ptr_OUTSET = (uint32_t *) address;//0x50000000 + 0x00000700;// + 4 * pin_numb; 
+  // printf("Address being written at is: %x \n", ptr_OUTSET);
+  *ptr_OUTSET = 1<<pin_numb; // a single digit value automatically goes to DIR bit      
+}
 
+// Inputs: 
+//  gpio_num - gpio number 0-31
+void gpio_clear(uint8_t pin_numb){
+  // printf("Clearing Pin #: %d \n", pin_numb);
+  uint32_t address = 0x50000000 + 0x50C; // loading OUTCLR register first
+  uint32_t *ptr_OUTCLR = (uint32_t *) address;//0x50000000 + 0x00000700;// + 4 * pin_numb; 
+  // printf("Address being written at is: %x \n", ptr_OUTCLR);
+  *ptr_OUTCLR = 1<<pin_numb; // a single digit value automatically goes to DIR bit      
+}
+
+// Inputs: 
+//  gpio_num - gpio number 0-31
+bool gpio_read(uint8_t gpio_num) {
+    uint32_t address = 0x50000000 + 0x510; // loading IN register first
+    uint32_t *ptr_IN = (uint32_t *) address;//0x50000000 + 0x00000700;// + 4 * pin_numb; 
+    
+    bool val = (*(ptr_IN)&(1<<gpio_num));
+    
+    // printf("%d is read from: %x \n", val, ptr_IN);
+    // should return pin state
+    return val;
+}
+
+void gpio_OUT(uint8_t pin_numb, int val){
+    printf("Using OUT Register to write: %d on pin: %d \n", val, pin_numb); 
+    uint32_t address = 0x50000000 + 0x700 + 0x504; // loading OUT register
+    uint32_t *ptr = (uint32_t *) address; 
+    printf("Address being written at is: %x \n", 0xFFFFFFFF||val<<pin_numb);
+    *ptr &=val<<pin_numb;  // Read the contents of the register and clear a necessary bit
 }

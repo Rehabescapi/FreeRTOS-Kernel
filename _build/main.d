@@ -117,7 +117,7 @@ _build/main.o: main.c /usr/arm-none-eabi/include/stdio.h \
  include/FreeRTOS.h include/FreeRTOSConfig.h include/projdefs.h \
  include/portable.h include/deprecated_definitions.h include/portmacro.h \
  include/portmacro_cmsis.h include/mpu_wrappers.h include/task.h \
- include/list.h support.h /usr/arm-none-eabi/include/math.h \
+ include/list.h support.h /usr/arm-none-eabi/include/math.h gpio.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_gpiote.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpiote.h \
  ../buckler/software/nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
