@@ -14,7 +14,7 @@ APP_SOURCES = $(notdir $(wildcard ./*.c))
 
 # APP_SOURCES+= $(notdir ./portable/MemMang/heap_2.c)
 #APP_SOURCES += ~/FreeRTOS-Kernel/portable/MemMang/heap_2.c
-#APP_SOURCES+= $(notdir $(wildcard ./portable/GCC/nrf52/*.c))
+APP_SOURCES+= $(notdir $(wildcard ./portable/GCC/nrf52/*.c))
 
 
 # Path to base of nRF52-base repo

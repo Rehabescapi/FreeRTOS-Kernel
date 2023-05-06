@@ -17,6 +17,16 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+#include "support.h"
+#include "nrfx_gpiote.h"
+#include "nrf_drv_spi.h"
+
+ #include "lsm9ds1.h"
+ #include "nrf_twi_mngr.h"
+NRF_TWI_MNGR_DEF(twi_mngr_instance, 5, 0);
+
+
+
 
 TaskHandle_t  vtask1_handle;
 TaskHandle_t  vtask2_handle;
