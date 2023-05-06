@@ -13,7 +13,7 @@ static uint32_t* DIR = (uint32_t*) 0x5000514;
 
 
 void setDevices(){
-	 ret_code_t error_code = NRF_SUCCESS;
+	ret_code_t error_code = NRF_SUCCESS;
 
   // initialize RTT library
   error_code = NRF_LOG_INIT(NULL);
