@@ -29,6 +29,7 @@
 
 typedef struct ThirdAngle{
    float phi, psi , degree;
+   bool type;
 }ThirdAngle;
 
 void setDevices();

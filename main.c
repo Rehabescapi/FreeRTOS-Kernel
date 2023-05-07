@@ -47,17 +47,12 @@ void prvSetupHardware(){
 	printf("Entered prvSetupHardware. \n");
 
 	setDevices();
-
-
-
   // initialize RTT library
   error_code = NRF_LOG_INIT(NULL);
   APP_ERROR_CHECK(error_code);
   NRF_LOG_DEFAULT_BACKENDS_INIT();
   printf("Log initialized\n");
-
-
-    //gyroscope
+  //gyroscope
 
   // initialize i2c master (two wire interface)
   nrf_drv_twi_config_t i2c_config = NRF_DRV_TWI_DEFAULT_CONFIG;
@@ -70,9 +65,6 @@ void prvSetupHardware(){
   // initialize LSM9DS1 driver
   lsm9ds1_init(&twi_mngr_instance);
   printf("lsm9ds1 initialized\n");
-
-
-
 }
 
 
@@ -92,7 +84,7 @@ int main( void )
     /* Initialize clock driver for better time accuracy in FREERTOS */
     error_code = nrf_drv_clock_init();
     APP_ERROR_CHECK(error_code);
-    ThirdAngle sharedVar = {0.0,0.0,0.0};
+    ThirdAngle sharedVar = {0.0,0.0,0.0, true};
 
 	printf("Successful compilation of FreeRTOS \n");
 	prvSetupHardware();
@@ -170,10 +162,26 @@ void vTask1( void *pvParameters )
 	{
 		/* Print out the name of this task. */
 		printf( "%s \n",pcTaskName );
-		display_write("Hi MOM", 0);
+	
+		if(local->type)
+		{
+			snprintf(buf, 16, "aX%.3f Y%.3f",local->psi, local->phi);
+			display_write(buf,0);
 
-		snprintf(buf, 16, "%f",local->psi);
+			snprintf(buf, 16, "aZ: %.3f ",local->degree);
+			display_write(buf,1);
+
+
+		}
+		else{
+			local->type = true;
+				display_write("Hi MOM", 0);
+			snprintf(buf, 16, "%.2f",local->psi);
 		display_write(buf,1);
+
+		}
+
+		
 		vTaskDelay(300);
 
 	}
@@ -201,17 +209,24 @@ void vTask2( void *pvParameters )
 		printf( "%s \t %.4f\n",pcTaskName , acc_measurement.x_axis);
 
 		acc_measurement = lsm9ds1_read_accelerometer();
+		//gyro_measurement = 
 
 		nrf_mtx_trylock(&superlock);
+		if(local->type)
+
+		{
 
 		/**
-		 * Todo Change things to allow
+		 * Todo Change things to allow gyroscope to be the use after switch
 		 * 
-		 * /
+		 * */
 
 		local->psi = acc_measurement.x_axis;
 		local->phi = acc_measurement.y_axis;
 		local->degree = acc_measurement.z_axis;
+	}else{
+
+	}
 
 		nrf_mtx_unlock(&superlock);
 
