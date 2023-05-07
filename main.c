@@ -26,7 +26,7 @@
 
 #include "gpio.h"
 #include "support.h"
-#include <pthread.h>
+
 
 #define 	NRF_MTX_LOCKED   1
 #define 	NRF_MTX_UNLOCKED   0
@@ -65,6 +65,9 @@ void prvSetupHardware(){
   // initialize LSM9DS1 driver
   lsm9ds1_init(&twi_mngr_instance);
   printf("lsm9ds1 initialized\n");
+
+  //Currently breaks things with timers
+  //init_SDCard();
 }
 
 
